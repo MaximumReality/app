@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BACKDOOR_PROTOCOL_v.2.026</title>
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f2ff;
+            --terminal-green: #00ff41;
+            --bg-black: #0a0a0a;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--neon-blue);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            line-height: 1.4;
+        }
+
+        #video-bg {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            opacity: 0.3;
+            filter: grayscale(100%) contrast(150%);
+            object-fit: cover; /* Ensures it fills the iPhone screen perfectly */
+            pointer-events: none;
+        }
+
+        #terminal {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #333;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.7); /* Adds slight contrast against the video */
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .system-msg { color: var(--terminal-green); text-shadow: 0 0 5px var(--terminal-green); }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: var(--neon-blue);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+        .glyph-container {
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in;
+        }
+
+        .pink-glyph {
+            display: inline-block;
+            padding: 15px 25px;
+            border: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite, glitch-flicker 4s infinite;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes glitch-flicker {
+            0%, 95%, 100% { opacity: 1; }
+            96% { opacity: 0.3; transform: skewX(10deg); }
+            97% { opacity: 1; transform: skewX(0); }
+            98% { opacity: 0.5; }
+        }
+
+        @media (max-width: 600px) { body { font-size: 14px; padding: 10px; } }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop playsinline id="video-bg">
+        <source src="https://maximumreality.github.io/backdoor/interference.mp4" type="video/mp4">
+    </video>
+
+<div id="terminal">
+    <div id="output"></div>
+    <span class="cursor"></span>
+    
+    <div id="glyph-box" class="glyph-container">
+        <a href="https://maximumreality.xyz/signal.html" class="pink-glyph">◣ ACCESS_SIGNAL_FEED ◢</a>
+    </div>
+</div>
+
+<script>
+    const content = `[SYSTEM ACCESS GRANTED]
+[LOCATION: AGADIR_HUB_NODE]
+[ARCHIVE: MAX_REALITY_MANIFESTO]
+
+>_ VISION.LOG
+The tether is severed. We build the future on 6.7 inches of glass.
+No towers. No desks. Just raw logic and mobile-first architecture.
+
+>_ THE_OPERATIVES
+{
+  "Architect": "Maximum Reality Digital Creator",
+  "Quantum_Lead": "Azul [Sphynx/Hacker]",
+  "Chaos_Chef": "Mochkil [Tuxedo/Chef]"
+}
+
+>_ CORE_TECH_STACK
+- Language: HTML5 / CSS3 / JavaScript / JSON
+- Hardware: iPhone 14 Pro Max
+- Status: Signal Interference Detected...
+
+>_ THE_RULES
+1. THE CODE IS THE CANVAS.
+2. CYBERPUNK IS REALITY.
+3. CHAOS IS REQUIRED.
+
+[EOF]
+SYSTEM HALTED.`;
+
+    const output = document.getElementById('output');
+    let i = 0;
+
+    function typeWriter() {
+        if (i < content.length) {
+            let char = content.charAt(i);
+            if (content.substring(i, i+1) === '[') output.innerHTML += '<span class="system-msg">';
+            if (char === '\n') {
+                output.innerHTML += '<br>';
+            } else {
+                output.innerHTML += char;
+            }
+            if (char === ']') output.innerHTML += '</span>';
+            i++;
+            window.scrollTo(0, document.body.scrollHeight);
+            setTimeout(typeWriter, 20); 
+        } else {
+            document.getElementById('glyph-box').style.opacity = '1';
+        }
+    }
+
+    window.onload = typeWriter;
+</script>
+
+</body>
+</html>
