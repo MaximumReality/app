@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAINFRAME_ZERO | Azul's Quantum Lab</title>
+    <style>
+        :root { --neon-blue: #00e5ff; --neon-red: #ff0000; --bg-black: #050505; }
+        body { background: var(--bg-black); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px; overflow: hidden; height: 100vh; }
+        
+        /* THE SCAN LINE */
+        .scanline { width: 100%; height: 4px; background: rgba(0, 229, 255, 0.2); position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; box-shadow: 0 0 10px var(--neon-blue); animation: scan 4s linear infinite; }
+        @keyframes scan { 0% { top: -10px; } 100% { top: 100%; } }
+
+        /* GLITCH STATE MODIFIERS */
+        body.glitch-mode .scanline { background: rgba(255, 0, 0, 0.8); box-shadow: 0 0 20px var(--neon-red); animation-duration: 0.5s; }
+        body.glitch-mode .home-btn, body.glitch-mode .cat-header { color: var(--neon-red); text-shadow: 2px 2px #550000; }
+        
+        header { position: sticky; top: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 15px; border-bottom: 1px solid var(--neon-blue); z-index: 100; text-align: center; }
+        .home-btn { color: var(--neon-blue); text-decoration: none; font-weight: 900; font-size: 0.8rem; letter-spacing: 2px; }
+        
+        .status-bar { background: #0a0a0a; padding: 5px 15px; display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--neon-blue); border-bottom: 1px solid #111; align-items: center; }
+        .leak-btn { background: var(--neon-red); color: #000; padding: 2px 6px; font-weight: bold; cursor: pointer; border: none; font-size: 0.5rem; }
+
+        .search-container { padding: 15px; position: relative; z-index: 10; }
+        #vaultSearch { width: 100%; padding: 12px; background: #111; border: 1px solid #222; color: var(--neon-blue); border-radius: 4px; font-family: monospace; box-sizing: border-box; outline: none; }
+
+        .lab-section { height: calc(100vh - 150px); overflow-y: auto; }
+        .cat-header { background: #0a0a0a; color: var(--neon-blue); cursor: pointer; padding: 20px; width: 100%; border: none; text-align: left; font-size: 0.8rem; font-weight: bold; border-bottom: 1px solid #111; display: flex; justify-content: space-between; position: relative; z-index: 10; }
+        
+        .link-panel { background: #000; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; border-left: 2px solid var(--neon-blue); margin-left: 5px; }
+        .data-entry { padding: 15px 25px; text-decoration: none; color: #888; display: flex; align-items: center; border-bottom: 1px solid #111; font-size: 0.75rem; }
+        .data-entry span { margin-right: 15px; color: var(--neon-blue); }
+
+        /* RAINING TEXT EFFECT */
+        #glitchCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9998; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+    <canvas id="glitchCanvas"></canvas>
+
+    <header>
+        <a href="https://maximumreality.xyz" class="home-btn">📡 UPLINK: MAINFRAME_ZERO</a>
+    </header>
+
+    <div class="status-bar">
+        <span>USER: DR_AZUL_PHD</span>
+        <button class="leak-btn" onclick="startGlitch()">[ ! ] INITIATE_LEAK</button>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="vaultSearch" onkeyup="searchVault()" placeholder="SEARCH_QUANTUM_FILES...">
+    </div>
+
+       <section class="lab-section">
+        <button class="cat-header"> [ 01 ] QUANTUM_FLUX <span class="arrow">▼</span></button>
+        <div class="link-panel">
+            <a href="quantum-catnip.html" class="data-entry"><span>⚛️</span> Catnip Superposition Theory</a>
+        </div>
+
+        <button class="cat-header"> [ 02 ] CYBERNETICS <span class="arrow">▼</span></button>
+        <div class="link-panel">
+            <a href="kitchen-firewall.html" class="data-entry"><span>💾</span> Bypassing Kitchen Firewalls v4.0</a>
+        </div>
+
+        <button class="cat-header"> [ 03 ] FELINE_PHYSICS <span class="arrow">▼</span></button>
+        <div class="link-panel">
+            <a href="medical-logs.html" class="data-entry"><span>🏥</span> Sphynx Skin Integrity Log</a>
+            <a href="pounce-trajectory.html" class="data-entry"><span>🐾</span> Red Dot Entanglement</a>
+        </div>
+
+        <div class="terminal-container" style="position: relative; border: 1px solid #00ff00; background: #000; margin: 20px 15px; overflow: hidden; height: 250px; border-radius: 8px;">
+            <video id="terminalVideo" autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4;">
+                <source src="green_rain.mp4" type="video/mp4">
+            </video>
+
+            <div style="position: relative; z-index: 10; padding: 20px; font-family: 'Courier New', monospace;">
+                <h1 style="color: #00ff00; font-size: 1rem; text-shadow: 0 0 10px #00ff00;">> MAINFRAME_BOOT...</h1>
+                <p style="color: #00ff00; font-size: 0.7rem; line-height: 1.5;">
+                    [ STATUS ]: BREACH_BY_MOCHKIL<br>
+                    [ INTEL ]: AZUL_DIMENSION_SHIFT<br>
+                    [ NEWS ]: SORA_2_UPLINK_LIVE
+                </p>
+                
+                <div style="margin-top: 15px; display: flex; gap: 10px;">
+                    <a href="https://maximumreality.github.io/backdoor/cctv.html" style="color: #00ff00; text-decoration: none; border: 1px solid #00ff00; padding: 5px; font-size: 0.6rem;">[ FEEDS ]</a>
+
+                    <a href="quantum.html" style="color: #00ff00; text-decoration: none; border: 1px solid #00ff00; padding: 5px; font-size: 0.6rem;">[ LAB ]</a>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="var v=document.getElementById('terminalVideo'); v.muted=!v.muted; this.innerHTML=v.muted?'[ AUDIO_OFF ]':'[ AUDIO_LIVE ]';" 
+                style="width: calc(100% - 30px); margin: 0 15px; background: var(--neon-blue); color: #000; border: none; padding: 12px; font-family: monospace; font-size: 0.7rem; font-weight: bold; cursor: pointer; border-radius: 4px;">
+            [ AUDIO_OFF ]
+        </button>
+
+    </section>
+
+    <script>
+        // GLITCH ENGINE
+        const canvas = document.getElementById('glitchCanvas');
+        const ctx = canvas.getContext('2d');
+        let raining = false;
+
+        function startGlitch() {
+            raining = !raining;
+            document.body.classList.toggle('glitch-mode');
+            canvas.style.display = raining ? 'block' : 'none';
+            if(raining) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                renderGlitch();
+            }
+        }
+
+        function renderGlitch() {
+            if(!raining) return;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ff0000';
+            ctx.font = '10px monospace';
+            for(let i = 0; i < 20; i++) {
+                ctx.fillText("ACCESS_DENIED", Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.fillText("DATA_LEAK", Math.random() * canvas.width, Math.random() * canvas.height);
+            }
+            setTimeout(() => requestAnimationFrame(renderGlitch), 100);
+        }
+
+        // ACCORDION & SEARCH
+        function searchVault() {
+            let input = document.getElementById('vaultSearch').value.toLowerCase();
+            let entries = document.getElementsByClassName('data-entry');
+            let headers = document.getElementsByClassName('cat-header');
+            for (let entry of entries) {
+                entry.style.display = entry.innerText.toLowerCase().includes(input) ? "flex" : "none";
+            }
+            for (let header of headers) {
+                let panel = header.nextElementSibling;
+                let hasVisible = Array.from(panel.getElementsByClassName('data-entry')).some(e => e.style.display !== "none");
+                header.style.display = (input === "" || hasVisible) ? "flex" : "none";
+                if (input !== "" && hasVisible) { 
+                    header.classList.add("active"); 
+                    panel.style.maxHeight = panel.scrollHeight + "px"; 
+                } else if (input === "") { 
+                    header.classList.remove("active"); 
+                    panel.style.maxHeight = null; 
+                }
+            }
+        }
+
+        var acc = document.getElementsByClassName("cat-header");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
+            });
+        }
+    </script>
+</body>
+</html>
