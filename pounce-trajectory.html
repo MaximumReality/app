@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pounce Trajectory | Red Dot Entanglement</title>
+    <style>
+        :root { --neon-blue: #00e5ff; --neon-red: #ff3333; --bg-black: #050505; }
+        body { background: var(--bg-black); color: #fff; font-family: 'Courier New', monospace; padding: 20px; line-height: 1.4; margin: 0; overflow-x: hidden; }
+        
+        .nav { position: fixed; top: 0; left: 0; width: 100%; padding: 15px; background: #000; border-bottom: 1px solid var(--neon-blue); display: flex; justify-content: space-between; z-index: 100; }
+        .back-btn { color: var(--neon-blue); text-decoration: none; font-size: 0.7rem; border: 1px solid var(--neon-blue); padding: 5px 10px; }
+        
+        .scanline { width: 100%; height: 2px; background: rgba(0, 229, 255, 0.1); position: fixed; top: 50px; animation: scan 3s linear infinite; z-index: 5; pointer-events: none; }
+        @keyframes scan { 0% { top: 50px; } 100% { top: 100%; } }
+
+        .header-box { margin-top: 80px; border: 1px solid var(--neon-blue); padding: 20px; background: rgba(0, 229, 255, 0.05); }
+
+        @keyframes glitch {
+    0% { transform: translate(0); text-shadow: none; }
+    20% { transform: translate(-2px, 2px); text-shadow: 2px 0 var(--neon-red), -2px 0 var(--neon-blue); }
+    40% { transform: translate(-2px, -2px); text-shadow: -2px 0 var(--neon-red), 2px 0 var(--neon-blue); }
+    60% { transform: translate(2px, 2px); text-shadow: 2px 0 var(--neon-red), -2px 0 var(--neon-blue); }
+    80% { transform: translate(2px, -2px); text-shadow: -2px 0 var(--neon-red), 2px 0 var(--neon-blue); }
+    100% { transform: translate(0); }
+}
+
+.header-box h1 {
+    animation: glitch 2s infinite;
+    animation-timing-function: step-end;
+}
+
+        /* THE SIMULATION MONITOR */
+      /* Change this in your <style> section */
+/* ADD THIS BACK to ensure the box actually exists */
+.sim-monitor { 
+    border: 1px solid var(--neon-blue); 
+    margin: 20px 0; 
+    background: #000; 
+    position: relative; 
+    overflow: hidden; 
+    aspect-ratio: 16/9; 
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); 
+}
+
+/* Your updated video code below it is perfect */
+
+    .sim-monitor video { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; /* Changed from cover to contain */
+    background: #000;
+    filter: grayscale(100%) brightness(0.9) contrast(1.3); 
+}
+
+        
+        /* TARGETING RETICLE OVERLAY */
+        /* Update your .reticle style */
+.reticle { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 60px; /* Made it smaller to fit his head better */
+    height: 60px; 
+    border: 2px solid var(--neon-red); 
+    border-radius: 50%; 
+    opacity: 0.8; 
+    animation: pulse 1.5s infinite; 
+}
+
+/* Add a Neural Label next to the target */
+.reticle::after {
+    content: 'NEURAL_LOCK_ACTIVE';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--neon-red);
+    font-size: 0.4rem;
+    white-space: nowrap;
+    text-shadow: 0 0 5px var(--neon-red);
+}
+
+
+        .coords { position: absolute; top: 10px; right: 10px; font-size: 0.5rem; color: var(--neon-red); text-align: right; font-weight: bold; text-shadow: 0 0 5px var(--neon-red); }
+
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .data-card { border: 1px solid #222; padding: 10px; font-size: 0.65rem; background: rgba(255,255,255,0.02); }
+        .data-card span { color: var(--neon-blue); display: block; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        .footer { 
+    font-size: 0.6rem; 
+    opacity: 0.8; 
+    text-align: center; 
+    margin-top: 50px; 
+    padding: 30px 10px; 
+    border-top: 1px solid #222; 
+    background: linear-gradient(to bottom, transparent, rgba(0, 229, 255, 0.03));
+    color: var(--neon-blue);
+    letter-spacing: 1px;
+}
+
+#sector-clock {
+    margin-top: 15px;
+    font-family: monospace;
+    display: block;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    <div class="nav">
+        <a href="index.html" class="back-btn">← RETURN_TO_MAINFRAME</a>
+        <span style="font-size: 0.6rem; color: var(--neon-blue);">FILE: RED_DOT_LOG_77</span>
+    </div>
+
+    <div class="header-box">
+        <h1 style="font-size: 1.1rem; color: var(--neon-blue); margin: 0;">SUBJECT: RED_DOT_ENTANGLEMENT</h1>
+        <p style="font-size: 0.7rem; margin-top: 5px; color: #888;">Observation of Non-Newtonian Feline Propulsion</p>
+    </div>
+
+    <div class="sim-monitor">
+        <div style="position: absolute; top: 10px; left: 10px; background: var(--neon-blue); color: #000; padding: 2px 6px; font-size: 0.6rem; font-weight: bold; z-index: 10;">LIVE_ANALYSIS</div>
+        
+        <video id="redDotVideo" autoplay muted loop playsinline>
+            <source src="red_dot.mp4" type="video/mp4">
+        </video>
+
+        <div class="reticle"></div>
+        <div class="coords">
+            LOCK_ON: RED_DOT_01<br>
+            STATUS: [ UNSTABLE ]<br>
+            AZIMUTH: 184.2°
+        </div>
+    </div>
+
+    <div class="data-grid">
+        <div class="data-card">
+            <span>VELOCITY</span>
+            REDACTED (Exceeds Mach 1)
+        </div>
+        <div class="data-card">
+            <span>TAIL_FLICK</span>
+            High-Frequency Sync
+        </div>
+        <div class="data-card">
+            <span>PUPIL_STATE</span>
+            Maximum_Dilation
+        </div>
+        <div class="data-card">
+            <span>STRIKE_RESULT</span>
+            Reality_Glitch
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; font-size: 0.75rem; border-left: 2px solid var(--neon-blue); padding-left: 15px; color: #ccc;">
+        <p><strong>AZUL'S NOTES:</strong> The "Red Dot" appears to be a photon-based lifeform capable of teleportation. Subject Mochkil has attempted 412 strikes today. Accuracy remains at 0%. Further testing required in the kitchen sector.</p>
+    </div>
+<div class="data-block" style="border: 1px solid var(--neon-red); background: rgba(255, 51, 85, 0.05); padding: 15px; margin-top: 20px; border-left: 4px solid var(--neon-red);">
+    <h3 style="background: var(--neon-red); color: #000; font-size: 0.7rem; padding: 2px 8px; display: inline-block; margin: 0 0 10px 0;">[ URGENT_NEWS_FEED ]</h3>
+    <p style="font-size: 0.75rem; color: #fff; line-height: 1.5; margin: 0;">
+        <span style="color: var(--neon-red); font-weight: bold;">FLASH:</span> Localized photon anomalies detected in <strong>Marrakesh_01</strong>. 
+        <br><br>
+        Security Specialist <strong>Azul</strong> has deployed Subject <strong>Mochkil</strong> to intercept a high-velocity entity (ID: RED_DOT). Telemetry suggests 5th-dimensional phasing. 
+        <br><br>
+        <span style="color: var(--neon-blue);">WARNING:</span> Avoid physical contact. Reality glitches may occur. Accuracy remains 0.00%.
+    </p>
+</div>
+
+   <div class="footer">
+    MAXIMUM_REALITY_LABS // QUANTUM_DIVISION
+    <div id="sector-clock">
+        SECTOR: MARRAKESH_01 // TIME: <span id="clock-sync">LOADING...</span>
+    </div>
+</div>
+
+    <script>
+        document.addEventListener('touchstart', function() {
+            document.querySelectorAll('video').forEach(v => v.play());
+        }, {once: true});
+    </script>
+ 
+<script>
+    function updateClock() {
+        const now = new Date();
+        const options = { timeZone: 'Africa/Casablanca', hour12: false, 
+                          year: 'numeric', month: '2-digit', day: '2-digit', 
+                          hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        
+        // Formats to: 2026-01-07 03:08:21 (Cyberpunk Standard)
+        const timestamp = now.toLocaleString('sv-SE', options).replace(' ', ' T:');
+        document.getElementById('clock-sync').innerHTML = timestamp + " [ UTC+1 ]";
+    }
+    
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
+
+</body>
+</html>
